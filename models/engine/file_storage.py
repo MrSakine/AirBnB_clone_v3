@@ -8,8 +8,34 @@ class FileStorage:
     __file_path = 'file.json'
     __objects = {}
 
-    def all(self):
-        """Returns a dictionary of models currently in storage"""
+    def all(self, cls=None):
+        """
+        Returns a dictionary of models currently in storage
+
+        Args:
+            - cls (class, optional): the class to fetch from @__objects
+        """
+        if cls is not None:
+            from models.base_model import BaseModel
+            from models.user import User
+            from models.place import Place
+            from models.state import State
+            from models.city import City
+            from models.amenity import Amenity
+            from models.review import Review
+
+            classes = {
+                'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                'State': State, 'City': City, 'Amenity': Amenity,
+                'Review': Review
+            }
+            if cls in classes:
+                return {
+                    k: v for k, v in FileStorage.__objects.items()
+                    if k.split(".")[1] == cls
+                }
+            else:
+                pass
         return FileStorage.__objects
 
     def new(self, obj):
@@ -50,4 +76,15 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        pass
+        """
+        Delete obj from @__objects if its inside
+
+        Args:
+            - obj (object, optional): the object to delete from @__objects
+        """
+        if obj is not None:
+            for key, value in FileStorage.__objects.items():
+                temp = key.split(".")[1]
+                if temp == obj.id:
+                    del FileStorage.__objects[key]
+                    break
