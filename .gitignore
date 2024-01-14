@@ -7,6 +7,8 @@ models/**/__pycache__/
 tests/__pycache__/
 tests/**/__pycache__/
 objects.json
+*.json
+test_params_create
 
 # C extensions
 *.so

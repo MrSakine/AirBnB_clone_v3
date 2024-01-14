@@ -39,7 +39,9 @@ class TestConsoleDocs(unittest.TestCase):
 
     def test_console_module_docstring(self):
         """Test for the console.py module docstring"""
-        self.assertIsNot(console.__doc__, None, "console.py needs a docstring")
+        self.assertIsNot(
+            console.__doc__, None, "console.py needs a docstring"
+        )
         self.assertTrue(
             len(console.__doc__) >= 1, "console.py needs a docstring"
         )
@@ -47,11 +49,13 @@ class TestConsoleDocs(unittest.TestCase):
     def test_HBNBCommand_class_docstring(self):
         """Test for the HBNBCommand class docstring"""
         self.assertIsNot(
-            HBNBCommand.__doc__, None, "HBNBCommand class needs a docstring"
+            HBNBCommand.__doc__,
+            None,
+            "HBNBCommand class needs a docstring",
         )
         self.assertTrue(
             len(HBNBCommand.__doc__) >= 1,
-            "HBNBCommand class needs a docstring"
+            "HBNBCommand class needs a docstring",
         )
 
 
@@ -70,7 +74,9 @@ class TestConsoleCommands(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd("help show")
             output = mock_stdout.getvalue().strip()
-            self.assertTrue("[Usage]: show <className> <objectId>" in output)
+            self.assertTrue(
+                "[Usage]: show <className> <objectId>" in output
+            )
 
     def test_create_command(self):
         """Test the create command"""
@@ -85,15 +91,18 @@ class TestConsoleCommands(unittest.TestCase):
             console.HBNBCommand().onecmd("help update")
             output = mock_stdout.getvalue().strip()
             self.assertTrue(
-                "Usage: update <className> <id> <attName> <attVal>" in output
+                "Usage: update <className> <id> <attName> <attVal>"
+                in output
             )
 
     def test_destroy_command(self):
         """Test the destroy command"""
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd("help destroy")
-            output = mock_stdout.getvalue().strip()
-            self.assertTrue("[Usage]: destroy <className> <objectId>" in output)
+            out = mock_stdout.getvalue().strip()
+            self.assertTrue(
+                "[Usage]: destroy <className> <objectId>" in out
+            )
 
 
 class TestConsoleEOFCommand(unittest.TestCase):
@@ -213,7 +222,7 @@ class TestConsoleAllCommand(unittest.TestCase):
             self.assertEqual("** class doesn't exist **", output)
 
     def test_all_instances_valid_class(self):
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+        with patch("sys.stdout", new=StringIO()) as mock_stdout:
             # Create instances
             console.HBNBCommand().onecmd("create BaseModel")
             console.HBNBCommand().onecmd("create BaseModel")
@@ -221,7 +230,7 @@ class TestConsoleAllCommand(unittest.TestCase):
             console.HBNBCommand().onecmd("all BaseModel")
 
             output = mock_stdout.getvalue().strip()
-            self.assertEqual(len(output.split('\n')), 4)
+            self.assertEqual(len(output.split("\n")), 4)
 
 
 class TestConsoleShowCommand(unittest.TestCase):
@@ -250,7 +259,9 @@ class TestConsoleShowCommand(unittest.TestCase):
     def test_show_amenity_id_missing(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd(
-                "show {}".format(InstanceTest.amenity.__class__.__name__)
+                "show {}".format(
+                    InstanceTest.amenity.__class__.__name__
+                )
             )
             output = mock_stdout.getvalue().strip()
             self.assertEqual("** instance id missing **", output)
@@ -266,7 +277,9 @@ class TestConsoleShowCommand(unittest.TestCase):
     def test_show_place_id_missing(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd(
-                "show {}".format(InstanceTest.place.__class__.__name__)
+                "show {}".format(
+                    InstanceTest.place.__class__.__name__
+                )
             )
             output = mock_stdout.getvalue().strip()
             self.assertEqual("** instance id missing **", output)
@@ -274,7 +287,9 @@ class TestConsoleShowCommand(unittest.TestCase):
     def test_show_review_id_missing(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd(
-                "show {}".format(InstanceTest.review.__class__.__name__)
+                "show {}".format(
+                    InstanceTest.review.__class__.__name__
+                )
             )
             output = mock_stdout.getvalue().strip()
             self.assertEqual("** instance id missing **", output)
@@ -282,7 +297,9 @@ class TestConsoleShowCommand(unittest.TestCase):
     def test_show_state_id_missing(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd(
-                "show {}".format(InstanceTest.state.__class__.__name__)
+                "show {}".format(
+                    InstanceTest.state.__class__.__name__
+                )
             )
             output = mock_stdout.getvalue().strip()
             self.assertEqual("** instance id missing **", output)
@@ -335,15 +352,19 @@ class TestConsoleCreateCommand(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd("hamza.create()")
             output = mock_stdout.getvalue().strip()
-            self.assertEqual("*** Unknown syntax: hamza.create()", output)
+            self.assertEqual(
+                "*** Unknown syntax: hamza.create()", output
+            )
 
     def test_create_and_show_instance(self):
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+        with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd("create BaseModel")
             create_output = mock_stdout.getvalue().strip()
 
             # Extracting the ID from the create output
-            InstanceTest.created_instance_id = create_output.split()[-1]
+            InstanceTest.created_instance_id = create_output.split()[
+                -1
+            ]
 
             # Resetting the mock_stdout buffer
             mock_stdout.seek(0)
@@ -355,7 +376,9 @@ class TestConsoleCreateCommand(unittest.TestCase):
             )
             show_output = mock_stdout.getvalue().strip()
 
-            self.assertIn(InstanceTest.created_instance_id, show_output)
+            self.assertIn(
+                InstanceTest.created_instance_id, show_output
+            )
             self.assertTrue("BaseModel" in show_output)
 
 
@@ -390,14 +413,17 @@ class TestConsoleUpdateCommand(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd("hamza.update()")
             output = mock_stdout.getvalue().strip()
-            self.assertEqual("*** Unknown syntax: hamza.update()", output)
+            self.assertEqual(
+                "*** Unknown syntax: hamza.update()", output
+            )
 
     def test_update_and_show_instance(self):
         if InstanceTest.created_instance_id is not None:
-            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+            with patch("sys.stdout", new=StringIO()) as mock_stdout:
                 console.HBNBCommand().onecmd(
-                    "update BaseModel {} first_name \"Betty\"".format(
-                        InstanceTest.created_instance_id)
+                    'update BaseModel {} first_name "Betty"'.format(
+                        InstanceTest.created_instance_id
+                    )
                 )
 
                 # Resetting the mock_stdout buffer
@@ -411,7 +437,9 @@ class TestConsoleUpdateCommand(unittest.TestCase):
 
                 show_output = mock_stdout.getvalue().strip()
 
-                self.assertIn(InstanceTest.created_instance_id, show_output)
+                self.assertIn(
+                    InstanceTest.created_instance_id, show_output
+                )
                 self.assertTrue("BaseModel" in show_output)
                 self.assertTrue("first_name" in show_output)
                 self.assertTrue("Betty" in show_output)
@@ -448,13 +476,16 @@ class TestConsoleDeleteCommand(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd("hamza.destroy()")
             output = mock_stdout.getvalue().strip()
-            self.assertEqual("*** Unknown syntax: hamza.destroy()", output)
+            self.assertEqual(
+                "*** Unknown syntax: hamza.destroy()", output
+            )
 
     def test_delete_and_show_instance(self):
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+        with patch("sys.stdout", new=StringIO()) as mock_stdout:
             console.HBNBCommand().onecmd(
                 "destroy BaseModel {}".format(
-                    InstanceTest.created_instance_id)
+                    InstanceTest.created_instance_id
+                )
             )
 
             # Resetting the mock_stdout buffer
@@ -467,7 +498,9 @@ class TestConsoleDeleteCommand(unittest.TestCase):
             )
 
             show_output = mock_stdout.getvalue().strip()
-            self.assertNotIn(InstanceTest.created_instance_id, show_output)
+            self.assertNotIn(
+                InstanceTest.created_instance_id, show_output
+            )
             self.assertEqual("** no instance found **", show_output)
 
     def tearDown(self) -> None:
