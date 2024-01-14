@@ -160,57 +160,57 @@ class HBNBCommand(cmd.Cmd):
                 int_pattern,
             )
 
-        for param in params:
-            param_match = re.fullmatch(param_pattern, param)
-            if param_match is not None:
-                key_name = param_match.group("class_name")
-                str_value = param_match.group("string")
-                float_value = param_match.group("float")
-                int_value = param_match.group("int")
+            for param in params:
+                param_match = re.fullmatch(param_pattern, param)
+                if param_match is not None:
+                    key_name = param_match.group("class_name")
+                    str_value = param_match.group("string")
+                    float_value = param_match.group("float")
+                    int_value = param_match.group("int")
 
-                if float_value is not None:
-                    object_kwargs[key_name] = float(float_value)
-                if int_value is not None:
-                    object_kwargs[key_name] = int(int_value)
-                if str_value is not None:
-                    object_kwargs[key_name] = str_value[1:-1].replace(
-                        "-", " "
-                    )
-            else:
-                class_name = args
+                    if float_value is not None:
+                        object_kwargs[key_name] = float(float_value)
+                    if int_value is not None:
+                        object_kwargs[key_name] = int(int_value)
+                    if str_value is not None:
+                        object_kwargs[key_name] = str_value[
+                            1:-1
+                        ].replace("-", " ")
+        else:
+            class_name = args
 
-            if not class_name:
-                print("** class name missing **")
-                return
-            elif class_name not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-                return
+        if not class_name:
+            print("** class name missing **")
+            return
+        elif class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
 
-            storage_type = os.getenv("HBNB_TYPE_STORAGE")
-            if storage_type == "db":
-                if not hasattr(object_kwargs, "id"):
-                    object_kwargs.setdefault("id", str(uuid.uuid4()))
-                if not hasattr(object_kwargs, "created_at"):
-                    object_kwargs.setdefault(
-                        "created_at", str(datetime.now())
-                    )
-                if not hasattr(object_kwargs, "updated_at"):
-                    object_kwargs.setdefault(
-                        "updated_at", str(datetime.now())
-                    )
-
-                new_instance = HBNBCommand.classes[class_name](
-                    **object_kwargs
+        storage_type = os.getenv("HBNB_TYPE_STORAGE")
+        if storage_type == "db":
+            if not hasattr(object_kwargs, "id"):
+                object_kwargs.setdefault("id", str(uuid.uuid4()))
+            if not hasattr(object_kwargs, "created_at"):
+                object_kwargs.setdefault(
+                    "created_at", str(datetime.now())
                 )
-                new_instance.save()
-                print(new_instance.id)
-            else:
-                new_instance = HBNBCommand.classes[class_name]()
-                for key, value in object_kwargs.items():
-                    if key not in ignored_attributes:
-                        setattr(new_instance, key, value)
-                new_instance.save()
-                print(new_instance.id)
+            if not hasattr(object_kwargs, "updated_at"):
+                object_kwargs.setdefault(
+                    "updated_at", str(datetime.now())
+                )
+
+            new_instance = HBNBCommand.classes[class_name](
+                **object_kwargs
+            )
+            new_instance.save()
+            print(new_instance.id)
+        else:
+            new_instance = HBNBCommand.classes[class_name]()
+            for key, value in object_kwargs.items():
+                if key not in ignored_attributes:
+                    setattr(new_instance, key, value)
+            new_instance.save()
+            print(new_instance.id)
 
     def help_create(self):
         """Help information for the create method"""
