@@ -61,15 +61,17 @@ class HBNBCommand(cmd.Cmd):
             _cls = pline[: pline.find(".")]
 
             # isolate and validate <command>
-            _cmd = pline[pline.find(".") + 1 : pline.find("(")]
+            _cmd = pline[pline.find(".") + 1:pline.find("(")]
             if _cmd not in HBNBCommand.dot_cmds:
                 raise Exception
 
             # if parantheses contain arguments, parse them
-            pline = pline[pline.find("(") + 1 : pline.find(")")]
+            pline = pline[pline.find("(") + 1:pline.find(")")]
             if pline:
                 # partition args: (<id>, [<delim>], [<*args>])
-                pline = pline.partition(", ")  # pline convert to tuple
+                pline = pline.partition(
+                    ", "
+                )  # pline convert to tuple
 
                 # isolate _id, stripping quotes
                 _id = pline[0].replace('"', "")
@@ -155,6 +157,7 @@ class HBNBCommand(cmd.Cmd):
                     setattr(new_instance, key, int(value))
             except ValueError:
                 pass
+        print(new_instance.id)
         storage.save()
         return
 
@@ -296,9 +299,15 @@ class HBNBCommand(cmd.Cmd):
             return
 
         # first determine if kwargs or args
-        if "{" in args[2] and "}" in args[2] and type(eval(args[2])) is dict:
+        if (
+            "{" in args[2]
+            and "}" in args[2]
+            and type(eval(args[2])) is dict
+        ):
             kwargs = eval(args[2])
-            args = []  # reformat kwargs into list, ex: [<name>, <value>, ...]
+            args = (
+                []
+            )  # reformat kwargs into list, ex: [<name>, <value>, ...]
             for k, v in kwargs.items():
                 args.append(k)
                 args.append(v)
@@ -307,7 +316,7 @@ class HBNBCommand(cmd.Cmd):
             if args and args[0] == '"':  # check for quoted arg
                 second_quote = args.find('"', 1)
                 att_name = args[1:second_quote]
-                args = args[second_quote + 1 :]
+                args = args[second_quote + 1:]
 
             args = args.partition(" ")
 
@@ -316,7 +325,7 @@ class HBNBCommand(cmd.Cmd):
                 att_name = args[0]
             # check for quoted val arg
             if args[2] and args[2][0] == '"':
-                att_val = args[2][1 : args[2].find('"', 1)]
+                att_val = args[2][1:args[2].find('"', 1)]
 
             # if att_val was not quoted arg
             if not att_val and args[2]:
