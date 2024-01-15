@@ -61,21 +61,27 @@ class BaseModel:
         storage.save()
 
     def to_dict(self):
-        """Convert instance into dict format"""
-        dictionary = self.__dict__.copy()
+        """
+        Convert the base model object to dict
 
-        if "_sa_instance_state" in dictionary:
-            del dictionary["_sa_instance_state"]
+        Returns: a dictionary consisting of
+        attribute names of the base model object as keys of the dictionary
+        and their values as values of the dictionary
+        """
+        response = {}
+        for k, v in self.__dict__.items():
+            if k == "created_at" or k == "updated_at":
+                response[k] = v.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            else:
+                if not v:
+                    pass
+                else:
+                    response[k] = v
+        response["__class__"] = self.__class__.__name__
+        if "_sa_instance_state" in response:
+            del response["_sa_instance_state"]
 
-        dictionary.update(
-            {
-                "__class__": (str(type(self)).split(".")[-1]).split(
-                    "'"
-                )[0]
-            }
-        )
-
-        return dictionary
+        return response
 
     def delete(self):
         """delete the current instance from the storage"""
