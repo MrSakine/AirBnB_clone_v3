@@ -36,7 +36,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """"""
+        """get all objects"""
         my_dict = {}
         if cls:
             if type(cls) is str:
@@ -46,7 +46,7 @@ class DBStorage:
                 key = "{}.{}".format(type(q).__name__, q.id)
                 my_dict[key] = q
         else:
-            class_list = [State, City, Place]
+            class_list = [State, City, Place, Amenity, Review, User]
             for c in class_list:
                 query = self.__session.query(c)
                 for q in query:
