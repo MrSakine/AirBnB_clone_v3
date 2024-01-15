@@ -9,6 +9,6 @@ tests/**/__pycache__/
 objects.json
 *.json
 test_params_create
-
+venv/
 # C extensions
 *.so
