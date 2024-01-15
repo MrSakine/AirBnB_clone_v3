@@ -36,7 +36,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """"""
+        """get all objects"""
         my_dict = {}
         if cls:
             if type(cls) is str:

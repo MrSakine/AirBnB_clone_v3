@@ -66,10 +66,12 @@ class Place(BaseModel, Base):
 
     @property
     def amenities(self):
-        pass
+        """Get amenities"""
+        return []
 
     @amenities.setter
     def amenities(self, obj):
+        """Add a new amenity to @amenity_ids"""
         if obj.__class__.__name__ == "Amenity":
             name = obj.__class__.__name__
             amenity_ids.append("{0}.{1}".format(name, obj.id))

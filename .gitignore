@@ -12,6 +12,7 @@ test_params_create
 venv/
 main_delete.py
 *.txt
+main_place_amenities.py
 
 # C extensions
 *.so
