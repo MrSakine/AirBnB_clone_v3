@@ -10,5 +10,7 @@ objects.json
 *.json
 test_params_create
 venv/
+main_delete.py
+
 # C extensions
 *.so
