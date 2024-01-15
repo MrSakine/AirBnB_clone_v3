@@ -2,6 +2,10 @@
 """ Console Module """
 import cmd
 import sys
+import re
+import os
+import uuid
+from datetime import datetime
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -10,10 +14,6 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-import re
-import os
-from datetime import datetime
-import uuid
 
 
 class HBNBCommand(cmd.Cmd):
@@ -108,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
             print("(hbnb) ", end="")
         return stop
 
-    def do_quit(self, command):
+    def do_quit(self, _):
         """Method to exit the HBNB console"""
         exit()
 
@@ -116,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
         """Prints the help documentation for quit"""
         print("Exits the program with formatting\n")
 
-    def do_EOF(self, arg):
+    def do_EOF(self, _):
         """Handles EOF to exit program"""
         print()
         exit()
@@ -315,7 +315,7 @@ class HBNBCommand(cmd.Cmd):
         print(count)
 
     def help_count(self):
-        """ """
+        """Hel information for the count command"""
         print("Usage: count <class_name>")
 
     def do_update(self, args):
