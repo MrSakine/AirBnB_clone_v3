@@ -11,6 +11,7 @@ objects.json
 test_params_create
 venv/
 main_delete.py
+*.txt
 
 # C extensions
 *.so
