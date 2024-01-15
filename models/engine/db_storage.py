@@ -11,8 +11,10 @@ from models.state import State
 from models.user import User
 from os import getenv
 
+if getenv("HBNB_TYPE_STORAGE") == "db":
+    from models.place import place_amenity
+
 classes = {
-    "User": User,
     "State": State,
     "City": City,
     "Amenity": Amenity,
@@ -93,3 +95,7 @@ class DBStorage:
             bind=self.__engine, expire_on_commit=False
         )
         self.__session = scoped_session(session_factory)()
+
+    def close(self):
+        """close the SQLAlchemy session"""
+        self.__session.close()
