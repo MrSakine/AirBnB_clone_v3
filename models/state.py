@@ -4,31 +4,31 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from models.city import City
-from os import getenv
+import models
+import shlex
 
 
 class State(BaseModel, Base):
     """State class / table model"""
 
     __tablename__ = "states"
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        name = Column(String(128), nullable=False)
-        cities = relationship(
-            "City",
-            backref="state",
-            cascade="all, delete, delete-orphan",
-        )
-    else:
-        name = ""
+    name = Column(String(128), nullable=False)
+    cities = relationship(
+        "City", cascade="all, delete, delete-orphan", backref="state"
+    )
 
-        @property
-        def cities(self):
-            """Returns: list of instances with state_id"""
-            from models import storage
-
-            related_cities = []
-            cities = storage.all(City)
-            for city in cities.values():
-                if city.state_id == self.id:
-                    related_cities.append(city)
-            return related_cities
+    @property
+    def cities(self):
+        """The cities property."""
+        all_storage = models.storage.all()
+        elements = []
+        result = []
+        for key in all_storage:
+            city = key.replace(".", " ")
+            city = shlex.split(city)
+            if city[0] == "City":
+                elements.append(all_storage[key])
+        for e in elements:
+            if e.state_id == self.id:
+                result.append(e)
+        return result
