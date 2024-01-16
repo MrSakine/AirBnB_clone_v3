@@ -17,5 +17,5 @@ class test_Amenity(test_basemodel):
 
     def test_name2(self):
         """Test to check the type of the attribute name"""
-        new = self.value()
+        new = self.value(name="")
         self.assertEqual(type(new.name), str)
