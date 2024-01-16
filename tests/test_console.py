@@ -178,20 +178,23 @@ class TestConsoleAllCommand(unittest.TestCase):
     def test_all_command_base_model(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             InstanceTest.base = BaseModel()
-            console.HBNBCommand().onecmd("all")
+            console.HBNBCommand().onecmd("create BaseModel")
+            console.HBNBCommand().onecmd("all BaseModel")
             output = mock_stdout.getvalue().strip()
             self.assertIn("BaseModel", output)
 
     def test_all_command_amenity(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             InstanceTest.amenity = Amenity()
-            console.HBNBCommand().onecmd("all")
+            console.HBNBCommand().onecmd("create Amenity")
+            console.HBNBCommand().onecmd("all Amenity")
             output = mock_stdout.getvalue().strip()
             self.assertIn("Amenity", output)
 
     def test_all_command_city(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             InstanceTest.city = City()
+            console.HBNBCommand().onecmd("create City")
             console.HBNBCommand().onecmd("all")
             output = mock_stdout.getvalue().strip()
             self.assertIn("City", output)
@@ -199,6 +202,7 @@ class TestConsoleAllCommand(unittest.TestCase):
     def test_all_command_place(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             InstanceTest.place = Place()
+            console.HBNBCommand().onecmd("create Place")
             console.HBNBCommand().onecmd("all")
             output = mock_stdout.getvalue().strip()
             self.assertIn("Place", output)
@@ -206,6 +210,7 @@ class TestConsoleAllCommand(unittest.TestCase):
     def test_all_command_review(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             InstanceTest.review = Review()
+            console.HBNBCommand().onecmd("create Review")
             console.HBNBCommand().onecmd("all")
             output = mock_stdout.getvalue().strip()
             self.assertIn("Review", output)
@@ -213,6 +218,7 @@ class TestConsoleAllCommand(unittest.TestCase):
     def test_all_command_state(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             InstanceTest.state = State()
+            console.HBNBCommand().onecmd("create State")
             console.HBNBCommand().onecmd("all")
             output = mock_stdout.getvalue().strip()
             self.assertIn("State", output)
@@ -220,12 +226,14 @@ class TestConsoleAllCommand(unittest.TestCase):
     def test_all_command_user(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
             InstanceTest.user = User()
+            console.HBNBCommand().onecmd("create User")
             console.HBNBCommand().onecmd("all")
             output = mock_stdout.getvalue().strip()
             self.assertIn("User", output)
 
     def test_all_command_base_model_argument(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
+            console.HBNBCommand().onecmd("create BaseModel")
             console.HBNBCommand().onecmd("all BaseModel")
             output = mock_stdout.getvalue().strip()
             self.assertIn("[BaseModel]", output)
