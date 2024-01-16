@@ -65,7 +65,9 @@ class DBStorage:
     def delete(self, obj=None):
         """delete element"""
         if obj:
-            self.__session.delete(obj)
+            self.__session.query(type(obj)).filter(
+                type(obj).id == obj.id
+            ).delete()
 
     def reload(self):
         """reload"""
