@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+import shlex
 
 
 class FileStorage:
@@ -16,33 +17,17 @@ class FileStorage:
         Args:
             - cls (class, optional): the class to fetch from @__objects
         """
-        if cls is not None:
-            from models.base_model import BaseModel
-            from models.user import User
-            from models.place import Place
-            from models.state import State
-            from models.city import City
-            from models.amenity import Amenity
-            from models.review import Review
-
-            classes = {
-                "BaseModel": BaseModel,
-                "User": User,
-                "Place": Place,
-                "State": State,
-                "City": City,
-                "Amenity": Amenity,
-                "Review": Review,
-            }
-            if cls in classes:
-                return {
-                    k: v
-                    for k, v in FileStorage.__objects.items()
-                    if k.split(".")[1] == cls
-                }
-            else:
-                pass
-        return FileStorage.__objects
+        dicts = {}
+        if cls:
+            dictionary = self.__objects
+            for key in dictionary:
+                partition = key.replace('.', ' ')
+                partition = shlex.split(partition)
+                if (partition[0] == cls.__name__):
+                    dicts[key] = self.__objects[key]
+            return (dicts)
+        else:
+            return self.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -95,8 +80,11 @@ class FileStorage:
             - obj (object, optional): the object to delete from @__objects
         """
         if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            del self.__objects[key]
+            try:
+                key = "{}.{}".format(type(obj).__name__, obj.id)
+                del self.__objects[key]
+            except (KeyError, AttributeError):
+                pass
 
     def close(self):
         """Call the reload method."""
