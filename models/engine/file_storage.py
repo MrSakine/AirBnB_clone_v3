@@ -26,13 +26,18 @@ class FileStorage:
             from models.review import Review
 
             classes = {
-                'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                'State': State, 'City': City, 'Amenity': Amenity,
-                'Review': Review
+                "BaseModel": BaseModel,
+                "User": User,
+                "Place": Place,
+                "State": State,
+                "City": City,
+                "Amenity": Amenity,
+                "Review": Review,
             }
             if cls in classes:
                 return {
-                    k: v for k, v in FileStorage.__objects.items()
+                    k: v
+                    for k, v in FileStorage.__objects.items()
                     if k.split(".")[1] == cls
                 }
             else:
@@ -65,16 +70,20 @@ class FileStorage:
         from models.review import Review
 
         classes = {
-            'BaseModel': BaseModel, 'User': User, 'Place': Place,
-            'State': State, 'City': City, 'Amenity': Amenity,
-            'Review': Review
+            "BaseModel": BaseModel,
+            "User": User,
+            "Place": Place,
+            "State": State,
+            "City": City,
+            "Amenity": Amenity,
+            "Review": Review,
         }
         try:
             temp = {}
             with open(FileStorage.__file_path, "r") as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val["__class__"]](**val)
         except FileNotFoundError:
             pass
 
@@ -85,11 +94,9 @@ class FileStorage:
         Args:
             - obj (object, optional): the object to delete from @__objects
         """
-        if obj is None:
-            return
-        object_key = obj.to_dict()["__class__"] + "." + obj.id
-        if object_key in self.__objects.keys():
-            del self.__objects[object_key]
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            del self.__objects[key]
 
     def close(self):
         """Call the reload method."""
