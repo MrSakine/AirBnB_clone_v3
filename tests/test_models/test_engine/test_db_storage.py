@@ -3,7 +3,8 @@
 import unittest
 import MySQLdb
 from models.user import User
-from models import storage
+from models import storage, DBStorage
+
 from datetime import datetime
 import os
 
@@ -14,6 +15,16 @@ import os
 )
 class TestDBStorage(unittest.TestCase):
     """testing dbstorage engine"""
+
+    def test_docstrings(self):
+        """Check for dbstorage docstrings"""
+        self.assertIsNotNone(DBStorage.__doc__)
+        self.assertIsNotNone(DBStorage.__init__.__doc__)
+        self.assertIsNotNone(DBStorage.all.__doc__)
+        self.assertIsNotNone(DBStorage.new.__doc__)
+        self.assertIsNotNone(DBStorage.save.__doc__)
+        self.assertIsNotNone(DBStorage.delete.__doc__)
+        self.assertIsNotNone(DBStorage.reload.__doc__)
 
     def test_new_and_save(self):
         """testing  the new and save methods"""
@@ -132,8 +143,8 @@ class TestDBStorage(unittest.TestCase):
             + ", first_name, last_name) VALUES(%s, %s, %s, %s, %s, %s, %s);",
             [
                 "4447-by-me",
-                str(datetime.utcnow()),
-                str(datetime.utcnow()),
+                str(datetime.now()),
+                str(datetime.now()),
                 "ben_pike@yahoo.com",
                 "pass",
                 "Benjamin",
