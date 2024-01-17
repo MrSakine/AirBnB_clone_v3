@@ -132,8 +132,8 @@ class TestDBStorage(unittest.TestCase):
             + ", first_name, last_name) VALUES(%s, %s, %s, %s, %s, %s, %s);",
             [
                 "4447-by-me",
-                str(datetime.now()),
-                str(datetime.now()),
+                str(datetime.utcnow()),
+                str(datetime.utcnow()),
                 "ben_pike@yahoo.com",
                 "pass",
                 "Benjamin",
