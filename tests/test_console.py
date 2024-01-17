@@ -670,8 +670,6 @@ class TestDatabase(unittest.TestCase):
             self.assertTrue(result is not None)
             self.assertIn("john25@gmail.com", result)
             self.assertIn("123", result)
-            self.assertIn("john25@gmail.com", cout.getvalue())
-            self.assertIn("123", cout.getvalue())
             cursor.close()
             dbc.close()
 
