@@ -66,12 +66,12 @@ class HBNBCommand(cmd.Cmd):
             _cls = pline[: pline.find(".")]
 
             # isolate and validate <command>
-            _cmd = pline[pline.find(".") + 1:pline.find("(")]
+            _cmd = pline[pline.find(".") + 1: pline.find("(")]
             if _cmd not in HBNBCommand.dot_cmds:
                 raise Exception
 
             # if parantheses contain arguments, parse them
-            pline = pline[pline.find("(") + 1:pline.find(")")]
+            pline = pline[pline.find("(") + 1: pline.find(")")]
             if pline:
                 # partition args: (<id>, [<delim>], [<*args>])
                 pline = pline.partition(
@@ -194,7 +194,7 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            print(storage._FileStorage__objects[key])
+            print(storage.all()[key])
         except KeyError:
             print("** no instance found **")
 
@@ -262,7 +262,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, args):
         """Count current number of class instances"""
         count = 0
-        for k, v in storage._FileStorage__objects.items():
+        for k, v in storage.all().items():
             if args == k.split(".")[0]:
                 count += 1
         print(count)
@@ -329,7 +329,7 @@ class HBNBCommand(cmd.Cmd):
                 att_name = args[0]
             # check for quoted val arg
             if args[2] and args[2][0] == '"':
-                att_val = args[2][1:args[2].find('"', 1)]
+                att_val = args[2][1: args[2].find('"', 1)]
 
             # if att_val was not quoted arg
             if not att_val and args[2]:
