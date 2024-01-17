@@ -11,9 +11,14 @@ Base = declarative_base()
 
 class BaseModel:
     """A base class for all hbnb models"""
+
     id = Column(String(60), nullable=False, primary_key=True)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    updated_at = Column(
+        DateTime, nullable=False, default=datetime.utcnow()
+    )
+    created_at = Column(
+        DateTime, nullable=False, default=datetime.utcnow()
+    )
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
@@ -28,7 +33,9 @@ class BaseModel:
                 if key is None or value is None:
                     raise TypeError
                 if key == "created_at" or key == "updated_at":
-                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                    value = datetime.strptime(
+                        value, "%Y-%m-%dT%H:%M:%S.%f"
+                    )
                 if key != "__class__":
                     setattr(self, key, value)
 
@@ -62,4 +69,4 @@ class BaseModel:
 
     def delete(self):
         """delete the current instance from the storage"""
-        storage.delete(self)
+        models.storage.delete(self)
