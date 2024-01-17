@@ -15,6 +15,10 @@ class test_state(test_basemodel):
         self.name = "State"
         self.value = State
 
+    def test_docstring(self):
+        """Testing docstring"""
+        self.assertIsNotNone(State.__doc__)
+
     def test_name3(self):
         """Testing name attribute"""
         new = self.value(name="")

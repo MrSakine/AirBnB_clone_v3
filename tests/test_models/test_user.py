@@ -15,6 +15,10 @@ class test_User(test_basemodel):
         self.name = "User"
         self.value = User
 
+    def test_docstring(self):
+        """Testing docstring"""
+        self.assertIsNotNone(User.__doc__)
+
     def test_first_name(self):
         """Testing first_name attribute"""
         new = self.value(first_name="")

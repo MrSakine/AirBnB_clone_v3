@@ -15,6 +15,10 @@ class test_review(test_basemodel):
         self.name = "Review"
         self.value = Review
 
+    def test_docstring(self):
+        """Testing docstring"""
+        self.assertIsNotNone(Review.__doc__)
+
     def test_place_id(self):
         """Testing place_id attribute"""
         new = self.value(place_id="")

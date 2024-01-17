@@ -24,3 +24,7 @@ class test_City(test_basemodel):
         """Testing name attribute"""
         new = self.value(name="")
         self.assertEqual(type(new.name), str)
+
+    def test_docstring(self):
+        """Testing docstring"""
+        self.assertIsNotNone(City.__doc__)
