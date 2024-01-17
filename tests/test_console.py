@@ -592,12 +592,12 @@ class TestConsoleDeleteCommand(unittest.TestCase):
         InstanceTest.created_instance_id = None
 
 
+@unittest.skipIf(
+    os.getenv("HBNB_TYPE_STORAGE") != "db", "DBStorage test"
+)
 class TestDatabase(unittest.TestCase):
     """test database"""
 
-    @unittest.skipIf(
-        os.getenv("HBNB_TYPE_STORAGE") != "db", "DBStorage test"
-    )
     def test_db_create(self):
         """Tests the create command with the database storage."""
         with patch("sys.stdout", new=StringIO()) as cout:
@@ -629,9 +629,6 @@ class TestDatabase(unittest.TestCase):
             cursor.close()
             dbc.close()
 
-    @unittest.skipIf(
-        os.getenv("HBNB_TYPE_STORAGE") != "db", "DBStorage test"
-    )
     def test_db_show(self):
         """Tests the show command with the database storage."""
         with patch("sys.stdout", new=StringIO()) as cout:
