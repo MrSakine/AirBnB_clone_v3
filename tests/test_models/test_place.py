@@ -15,6 +15,10 @@ class test_Place(test_basemodel):
         self.name = "Place"
         self.value = Place
 
+    def test_docstring(self):
+        """Testing docstring"""
+        self.assertIsNotNone(Place.__doc__)
+
     def test_city_id(self):
         """Testing city_id attribute"""
         new = self.value(city_id="")
