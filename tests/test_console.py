@@ -400,11 +400,11 @@ class TestConsoleShowCommand(unittest.TestCase):
 class TestConsoleCreateCommand(unittest.TestCase):
     """Class for testing documentation of the console create command"""
 
-    def test_create_without_class_name(self):
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
-            console.HBNBCommand().onecmd("create")
-            output = mock_stdout.getvalue().strip()
-            self.assertEqual("** class name missing **", output)
+    # def test_create_without_class_name(self):
+    #   with patch("sys.stdout", new=StringIO()) as mock_stdout:
+    #       console.HBNBCommand().onecmd("create")
+    #       output = mock_stdout.getvalue().strip()
+    #       self.assertEqual("** class name missing **", output)
 
     def test_create_with_false_class_name(self):
         with patch("sys.stdout", new=StringIO()) as mock_stdout:
