@@ -36,7 +36,7 @@ class test_fileStorage(unittest.TestCase):
         new = BaseModel()
         new.save()
         for obj in storage.all().values():
-          temp = obj
+            temp = obj
         self.assertTrue(temp is obj)
 
     def test_all(self):
@@ -71,7 +71,7 @@ class test_fileStorage(unittest.TestCase):
         storage.save()
         storage.reload()
         for obj in storage.all().values():
-          loaded = obj
+            loaded = obj
         self.assertEqual(new.to_dict()["id"], loaded.to_dict()["id"])
 
     def test_reload_empty(self):
