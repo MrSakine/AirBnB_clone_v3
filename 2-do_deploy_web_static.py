@@ -41,6 +41,7 @@ def do_deploy(archive_path):
     try:
         if not os.path.isfile(archive_path):
             return False
+        run("sudo su")
         path = archive_path.split("/")[1]
         name = path.split(".")[0]
         put(archive_path, "/tmp/{0}".format(path))
