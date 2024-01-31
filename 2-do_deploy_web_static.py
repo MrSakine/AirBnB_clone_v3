@@ -39,7 +39,7 @@ def do_deploy(archive_path):
         - archive_path(str, optional): Path of the archive
     """
     try:
-        if not os.path.exists(archive_path):
+        if not os.path.isfile(archive_path):
             return False
         path = archive_path.split("/")[1]
         name = path.split(".")[0]
