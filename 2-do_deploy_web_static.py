@@ -49,10 +49,14 @@ def do_deploy(archive_path):
         dest = "/data/web_static/releases/{0}/".format(name)
         run(source + " " + dest)
         run("sudo rm /tmp/{0}".format(path))
-        source = "sudo mv /data/web_static/releases/{0}/web_static/*".format(name)
+        source = (
+            "sudo mv /data/web_static/releases/{0}/web_static/*".format(name)
+        )
         dest = "/data/web_static/releases/{0}/".format(name)
         run(source + " " + dest)
-        run("sudo rm -rf /data/web_static/releases/{0}/web_static".format(name))
+        run(
+            "sudo rm -rf /data/web_static/releases/{0}/web_static".format(name)
+        )
         run("sudo rm -rf /data/web_static/current")
         source = "sudo ln -s /data/web_static/releases/{0}/".format(name)
         dest = "/data/web_static/current"
