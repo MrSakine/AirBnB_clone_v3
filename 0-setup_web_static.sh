@@ -22,7 +22,7 @@ echo "server {
         server_name _;
 
         error_page 404 /404.html;
-        add_header X-Served-By 475984-web-01;
+        add_header X-Served-By $(hostname);
 
         location / {
             root /var/www/html;
