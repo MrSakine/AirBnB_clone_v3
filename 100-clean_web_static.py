@@ -83,7 +83,7 @@ def do_clean(number=0):
     try:
         if number == 0:
             number = 1
-        local("ls -t /versions | awk 'NR>{}' | xargs sudo rm -f".format(number))
-        run("ls -t /data/web_static/releases | awk 'NR>{}' | xargs sudo rm -f".format(number))
+        local("ls -t ./versions | awk 'NR>{}' | rm -f 'versions/$(cat)".format(number))
+        run("ls -t /data/web_static/releases | awk 'NR>{}' | rm -f 'versions/$(cat)".format(number))
     except Exception as e:
         print(e)
