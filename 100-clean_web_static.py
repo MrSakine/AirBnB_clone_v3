@@ -81,9 +81,19 @@ def do_clean(number=0):
     Delete out-of-date archives
     """
     try:
-        if number == 0:
-            number = 1
-        local("ls -t /versions | awk 'NR>{}' | xargs sudo rm -f".format(number))
-        run("ls -t /data/web_static/releases | awk 'NR>{}' | xargs sudo rm -f".format(number))
+        number = 1 if number == 0 else int(number)
+        files = sorted(os.listdir("versions"))
+        for _ in range(number):
+            files.pop()
+        with lcd("versions"):
+            for file in files:
+                local("rm -rf {}".format(file))
+        with cd("/data/web_static/releases"):
+            files = run("ls -tr").split()
+            archives = list(map(lambda x: "web_static" in x, files))
+            for _ in range(number):
+                archives.pop()
+            for archive in archives:
+                run("rm -rf {}".format(archive))
     except Exception as e:
         print(e)
