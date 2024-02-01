@@ -197,3 +197,5 @@ pip3 install Fabric3==1.14.post1
 | 1: Compress before sending | [1-pack_web_static.py](https://github.com/MrSakine/AirBnB_clone_v2/blob/main/1-pack_web_static.py) | Generates a .tgz archive from the contents of the web_static folder |
 | 2: Deploy archive! | [2-do_deploy_web_static.py](https://github.com/MrSakine/AirBnB_clone_v2/blob/main/2-do_deploy_web_static.py) | Based on the file `1-pack_web_static.py`, distribute an archive to the web servers |
 | 3: Full deployment | [3-deploy_web_static.py](https://github.com/MrSakine/AirBnB_clone_v2/blob/main/3-deploy_web_static.py) | Based on the files `1-pack_web_static.py` & `2-do_deploy_web_static.py`, creates and distributes an archive to your web servers |
+| 4: Keep it clean! | [100-clean_web_static.py](https://github.com/MrSakine/AirBnB_clone_v2/blob/main/100-clean_web_static.py) | Based on the file `3-deploy_web_static.py`, deletes out-of-date archives |
+| 5: Puppet for setup | [101-setup_web_static.pp](https://github.com/MrSakine/AirBnB_clone_v2/blob/main/101-setup_web_static.pp) | Sets up your web servers for the deployment of web_static from Puppet tool |
