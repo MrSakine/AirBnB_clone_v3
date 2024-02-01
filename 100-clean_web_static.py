@@ -87,5 +87,5 @@ def do_clean(number=0):
             local("ls -t | awk 'NR>{}' | xargs sudo rm -f".format(number))
         with cd("/data/web_static/releases"):
             run("ls -t | awk 'NR>{}' | xargs sudo rm -f".format(number))
-    except Exception:
-        pass
+    except Exception as e:
+        print(e)
