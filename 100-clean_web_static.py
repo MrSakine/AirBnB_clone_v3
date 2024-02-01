@@ -80,20 +80,7 @@ def do_clean(number=0):
     """
     Delete out-of-date archives
     """
-    try:
-        number = 1 if number == 0 else int(number)
-        files = sorted(os.listdir("versions"))
-        for _ in range(number):
-            files.pop()
-        with lcd("versions"):
-            for file in files:
-                local("rm -rf {}".format(file))
-        with cd("/data/web_static/releases"):
-            files = run("ls -tr").split()
-            archives = list(map(lambda x: "web_static" in x, files))
-            for _ in range(number):
-                archives.pop()
-            for archive in archives:
-                run("rm -rf {}".format(archive))
-    except Exception as e:
-        print(e)
+    number = 1 if int(number) == 0 else int(number)
+    local('cd versions ; ls -t | tail -n +{} | xargs rm -rf'.format(number))
+    path = '/data/web_static/releases'
+    run('cd {} ; ls -t | tail -n +{} | xargs rm -rf'.format(path, number))
