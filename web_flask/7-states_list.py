@@ -16,7 +16,7 @@ def states_list():
     return render_template("7-states_list", states=all_states)
 
 
-@app.teardown_appcontext()
+@app.teardown_appcontext
 def close_storage(exception):
     """Close sqlalchemy session after each request"""
     storage.close()
