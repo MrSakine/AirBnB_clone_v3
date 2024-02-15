@@ -13,7 +13,7 @@ app = Flask(__name__)
 def states_list():
     """Display content from html files for the route"""
     all_states = storage.all(cls=State)
-    return render_template("7-states_list", states=all_states)
+    return render_template("7-states_list.html", states=all_states)
 
 
 @app.teardown_appcontext
