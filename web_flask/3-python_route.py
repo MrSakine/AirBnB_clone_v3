@@ -24,17 +24,12 @@ def c(text: str):
     return f"C {text.replace('_', ' ')}"
 
 
+@app.route("/python/")
 @app.route("/python/<text>", strict_slashes=False)
-def python(text: str = "cool"):
+def python(text: str = None):
+    if text is None:
+        return "Python is cool"
     return f"Python {text.replace('_', ' ')}"
-
-
-@app.endpoint("default_python")
-def default_python():
-    return "Python is cool"
-
-
-app.url_map.add(Rule("/python/", endpoint="default_python"))
 
 
 app.run()
