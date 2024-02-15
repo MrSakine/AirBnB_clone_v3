@@ -3,15 +3,10 @@
 This module is about python route
 """
 
-from flask import Flask
+from flask import Flask, render_template
 from werkzeug.routing import Rule
 
 app = Flask(__name__)
-
-
-@app.endpoint("default_python")
-def default_python():
-    return "Python is cool"
 
 
 @app.route("/", strict_slashes=False)
@@ -40,6 +35,11 @@ def python(text: str = None):
 @app.route("/number/<int:n>", strict_slashes=False)
 def n(n: int):
     return f"{n} is a number"
+
+
+@app.route("/number_template/<int:n>", strict_slashes=False)
+def n_template(n: int):
+    return render_template('5-number.html', number=n)
 
 
 app.run()
