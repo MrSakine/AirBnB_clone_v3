@@ -6,6 +6,8 @@ models/__pycache__/
 models/**/__pycache__/
 tests/__pycache__/
 tests/**/__pycache__/
+web_flask/__pycache__/
+web_flask/**/__pycache__/
 objects.json
 *.json
 test_params_create
