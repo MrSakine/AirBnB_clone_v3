@@ -18,7 +18,7 @@
   border-right: 1px solid #dddddd;
 }
 
-.filter_amenities {
+.amenities {
   display: inline;
   vertical-align: middle;
   height: 100%;
@@ -46,7 +46,7 @@
   display: inline-block;
 }
 
-.filter_amenities:hover .popover {
+.amenities:hover .popover {
   display: inline-block;
 }
 
