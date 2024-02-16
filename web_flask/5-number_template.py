@@ -22,7 +22,7 @@ def hbnb():
 @app.route("/c/<text>", strict_slashes=False)
 def c(text: str):
     """Display text (C + @text)"""
-    return f"C {text.replace('_', ' ')}"
+    return "C {}".format(text.replace('_', ' '))
 
 
 @app.route("/python/", strict_slashes=False)
@@ -31,17 +31,17 @@ def python(text: str = None):
     """Display text (Python + @text)"""
     if text is None:
         return "Python is cool"
-    return f"Python {text.replace('_', ' ')}"
+    return "Python {}".format(text.replace('_', ' '))
 
 
 @app.route("/number/<int:n>", strict_slashes=False)
-def n(n: int):
+def n(n):
     """Display text (@n + is a number)"""
-    return f"{n} is a number"
+    return "{} is a number".format(n)
 
 
 @app.route("/number_template/<int:n>", strict_slashes=False)
-def n_template(n: int):
+def n_template(n):
     """Display content from html files for the route"""
     return render_template('5-number.html', number=n)
 
