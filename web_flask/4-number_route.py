@@ -3,7 +3,6 @@
 This module is about python route
 """
 from flask import Flask
-from werkzeug.routing import Rule
 
 app = Flask(__name__)
 
@@ -26,7 +25,7 @@ def c(text: str):
     return f"C {text.replace('_', ' ')}"
 
 
-@app.route("/python/")
+@app.route("/python/", strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
 def python(text: str = None):
     """Display text (Python + @text)"""
