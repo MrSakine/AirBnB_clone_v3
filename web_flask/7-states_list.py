@@ -3,7 +3,6 @@
 This module is about listing states from db
 """
 from models import storage
-from models.state import State
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -12,7 +11,7 @@ app = Flask(__name__)
 @app.route("/states_list", strict_slashes=False)
 def states_list():
     """Display content from html files for the route"""
-    all_states = storage.all(cls=State)
+    all_states = storage.all(cls="State")
     return render_template("7-states_list.html", states=all_states)
 
 
