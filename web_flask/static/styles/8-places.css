@@ -100,7 +100,7 @@ article h2 {
 
 .guest_icon {
 	display: inline-block;
-	background-image: url("../images/icon_group.png");
+	background-image: url("../static/images/icon_group.png");
 	background-repeat: no-repeat;
 	background-position: center;
 	width: 50px;
@@ -109,7 +109,7 @@ article h2 {
 
 .bed_icon {
 	display: inline-block;
-	background-image: url("../images/icon_bed.png");
+	background-image: url("../static/images/icon_bed.png");
 	background-repeat: no-repeat;
 	background-position: center;
     width: 50px;
@@ -118,7 +118,7 @@ article h2 {
 
 .bath_icon {
 	display: inline-block;
-	background-image: url("../images/icon_bath.png");
+	background-image: url("../static/images/icon_bath.png");
 	background-repeat: no-repeat;
 	background-position: center;
     width: 50px;
