@@ -3,7 +3,6 @@
 This module is about python route
 """
 from flask import Flask
-from werkzeug.routing import Rule
 
 app = Flask(__name__)
 
