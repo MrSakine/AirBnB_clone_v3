@@ -12,15 +12,15 @@ from models.place import Place
 app = Flask(__name__)
 
 
-@app.route("/hbnb_filters", strict_slashes=False)
-def hbnb_filters():
+@app.route("/hbnb", strict_slashes=False)
+def hbnb():
     """Display content from html files for the route"""
     all_states = storage.all(cls=State)
     all_amenities = storage.all(cls=Amenity)
     all_places = storage.all(cls=Place)
 
     return render_template(
-        "10-hbnb_filters.html",
+        "100-hbnb.html",
         states=all_states,
         amenities=all_amenities,
         places=all_places
