@@ -20,7 +20,7 @@ def close_storage(exception):
 
 if __name__ == "__main__":
     host = os.getenv("HBNB_API_HOST") if os.getenv(
-        "HBNB_API_HOST") is None else "0.0.0.0"
+        "HBNB_API_HOST") is not None else "0.0.0.0"
     port = int(os.getenv("HBNB_API_PORT")) if os.getenv(
-        "HBNB_API_PORT") is None else 5000
+        "HBNB_API_PORT") is not None else 5000
     app.run(host=host, port=port, threaded=True)
