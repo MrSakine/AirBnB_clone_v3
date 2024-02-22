@@ -15,6 +15,7 @@ venv/
 main_delete.py
 *.txt
 main_place_amenities.py
+test_get_count.py
 
 # C extensions
 *.so
