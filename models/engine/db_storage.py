@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """DATABASE engine"""
-
+import shlex
 from os import getenv
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
@@ -53,6 +53,40 @@ class DBStorage:
                     key = "{}.{}".format(type(q).__name__, q.id)
                     my_dict[key] = q
         return my_dict
+
+    def get(self, cls, id):
+        """
+        Returns the object based on the class and its ID, or None if not found
+
+        Args:
+            - cls (class): the class to fetch
+            - id (str): representing the object ID
+        """
+        if type(cls) is str:
+            cls = eval(cls)
+        name = "{0}.{1}".format(cls.__name__, id)
+        return self.all(cls).get(name)
+
+    def count(self, cls=None):
+        """
+        Returns the number of objects in storage matching the given class
+        If no class is passed, returns the count of all objects in storage
+
+        Args:
+            - cls (class): the class to count
+        """
+        count = 0
+        if cls:
+            if type(cls) is str:
+                cls = eval(cls)
+            query = self.__session.query(cls)
+            count = len([i for i in query])
+        else:
+            class_list = [State, City, Place, Amenity, Review, User]
+            for c in class_list:
+                query = self.__session.query(c)
+                count += len([i for i in query])
+        return count
 
     def new(self, obj):
         """add new element"""
