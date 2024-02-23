@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """User object that handles all default RESTFul API actions"""
-
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
@@ -13,7 +12,7 @@ def get_users():
     users = []
     for user in storage.all("User").values():
         users.append(user.to_dict())
-    return jsonify(users)
+    return make_response(jsonify(users), 200)
 
 
 @app_views.route("/users/<string:user_id>", methods=["GET"])
@@ -22,7 +21,7 @@ def get_user(user_id):
     user = storage.get("User", user_id)
     if user is None:
         abort(404)
-    return jsonify(user.to_dict())
+    return make_response(jsonify(user.to_dict()), 200)
 
 
 @app_views.route(
@@ -36,20 +35,18 @@ def delete_user(user_id):
         abort(404)
     user.delete()
     storage.save()
-    return jsonify({})
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route("/users", methods=["POST"])
 def post_user():
     """method that create User"""
     if not request.get_json():
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        abort(400, "Not a JSON")
     if "email" not in request.get_json():
-        return make_response(jsonify({"error": "Missing email"}), 400)
+        abort(400, "Missing email")
     if "password" not in request.get_json():
-        return make_response(
-            jsonify({"error": "Missing password"}), 400
-        )
+        abort(400, "Missing password")
     user = User(**request.get_json())
     user.save()
     return make_response(jsonify(user.to_dict()), 201)
@@ -67,4 +64,4 @@ def put_user(user_id):
         if attr not in ["id", "email", "created_at", "updated_at"]:
             setattr(user, attr, val)
     user.save()
-    return jsonify(user.to_dict())
+    return make_response(jsonify(user.to_dict()), 200)

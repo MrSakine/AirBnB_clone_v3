@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 """ new view for Amenity objects that handles
 all default RESTFul API actions"""
-
 from api.v1.views import app_views
-from flask import jsonify, request, abort
+from flask import jsonify, request, abort, make_response
 from models import storage
 from models.amenity import Amenity
 
@@ -15,7 +14,7 @@ def get_amenities():
     amenities_list = []
     for amenity in amenities.values():
         amenities_list.append(amenity.to_dict())
-    return jsonify(amenities_list)
+    return make_response(jsonify(amenities_list), 200)
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["GET"])
@@ -24,7 +23,7 @@ def get_amenity(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
-    return jsonify(amenity.to_dict())
+    return make_response(jsonify(amenity.to_dict()), 200)
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["DELETE"])
@@ -35,7 +34,7 @@ def delete_amenity(amenity_id):
         abort(404)
     storage.delete(amenity)
     storage.save()
-    return jsonify({}), 200
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route("/amenities", methods=["POST"])
@@ -43,13 +42,13 @@ def post_amenity():
     """Creates a Amenity"""
     data = request.get_json()
     if data is None:
-        return "Not a JSON", 400
+        abort(400, "Not a JSON")
     if "name" not in data:
-        return "Missing name", 400
+        abort(400, "Missing name")
     amenity = Amenity(**data)
     storage.new(amenity)
     storage.save()
-    return jsonify(amenity.to_dict()), 201
+    return make_response(jsonify(amenity.to_dict()), 201)
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["PUT"])
@@ -60,9 +59,9 @@ def put_amenity(amenity_id):
         abort(404)
     data = request.get_json()
     if data is None:
-        return "Not a JSON", 400
+        abort(400, "Not a JSON")
     for key, value in data.items():
         if key not in ["id", "created_at", "updated_at"]:
             setattr(amenity, key, value)
     storage.save()
-    return jsonify(amenity.to_dict()), 200
+    return make_response(jsonify(amenity.to_dict()), 200)
