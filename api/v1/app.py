@@ -18,6 +18,14 @@ def close_storage(exception):
     storage.close()
 
 
+@app.errorhandler(400)
+def handle_400_error(e):
+    """Handle 400 error"""
+    print(dir(e))
+    message = jsonify({"error": e.description})
+    return make_response(message, 400)
+
+
 @app.errorhandler(404)
 def handle_404_error(e):
     """Handle 404 error"""
