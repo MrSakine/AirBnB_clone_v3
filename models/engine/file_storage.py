@@ -2,28 +2,24 @@
 """This module defines a class to manage file storage for hbnb clone"""
 import json
 import shlex
-from models import (
-    base_model,
-    amenity,
-    city,
-    place,
-    review,
-    state,
-    user,
-)
+from models.state import State
+from models.city import City
+from models.user import User
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 
 
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
 
     CLASSES = {
-        "BaseModel": base_model.BaseModel,
-        "Amenity": amenity.Amenity,
-        "City": city.City,
-        "Place": place.Place,
-        "Review": review.Review,
-        "State": state.State,
-        "User": user.User,
+        "Amenity": Amenity,
+        "City": City,
+        "Place": Place,
+        "Review": Review,
+        "State": State,
+        "User": User,
     }
 
     __file_path = "file.json"
