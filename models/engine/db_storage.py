@@ -16,6 +16,15 @@ from models.amenity import Amenity
 class DBStorage:
     """Database engine"""
 
+    CLASSES = {
+        "Amenity": Amenity,
+        "City": City,
+        "Place": Place,
+        "Review": Review,
+        "State": State,
+        "User": User,
+    }
+
     __engine = None
     __session = None
 
