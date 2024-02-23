@@ -5,7 +5,7 @@ This module is the root of the API
 import os
 from models import storage
 from api.v1.views.index import app_views
-from flask import Flask
+from flask import Flask, jsonify, make_response
 
 app = Flask(__name__)
 
@@ -21,7 +21,8 @@ def close_storage(exception):
 @app.errorhandler(404)
 def handle_404_error(e):
     """Handle 404 error"""
-    return {"error": "Not found"}
+    message = jsonify({"error": "Not found"})
+    return make_response(message, 404)
 
 
 if __name__ == "__main__":
