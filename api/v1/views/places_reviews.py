@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Review object that handles all default RESTFul API actions"""
-
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
@@ -16,7 +15,7 @@ def get_reviews(place_id):
     reviews = []
     for review in place.reviews:
         reviews.append(review.to_dict())
-    return jsonify(reviews)
+    return make_response(jsonify(reviews), 200)
 
 
 @app_views.route("/reviews/<string:review_id>", methods=["GET"])
@@ -25,7 +24,7 @@ def get_review(review_id):
     review = storage.get("Review", review_id)
     if review is None:
         abort(404)
-    return jsonify(review.to_dict())
+    return make_response(jsonify(review.to_dict()), 200)
 
 
 @app_views.route("/reviews/<string:review_id>", methods=["DELETE"])
@@ -36,7 +35,7 @@ def delete_review(review_id):
         abort(404)
     review.delete()
     storage.save()
-    return jsonify({})
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route(
@@ -48,17 +47,15 @@ def post_review(place_id):
     if place is None:
         abort(404)
     if not request.get_json():
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        abort(400, "Not a JSON")
     kwargs = request.get_json()
     if "user_id" not in kwargs:
-        return make_response(
-            jsonify({"error": "Missing user_id"}), 400
-        )
+        abort(400, "Missing user_id")
     user = storage.get("User", kwargs["user_id"])
     if user is None:
         abort(404)
     if "text" not in kwargs:
-        return make_response(jsonify({"error": "Missing text"}), 400)
+        abort(400, "Missing text")
     kwargs["place_id"] = place_id
     review = Review(**kwargs)
     review.save()
@@ -72,7 +69,7 @@ def put_review(review_id):
     if review is None:
         abort(404)
     if not request.get_json():
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        abort(400, "Not a JSON")
     for attr, val in request.get_json().items():
         if attr not in [
             "id",
@@ -83,4 +80,4 @@ def put_review(review_id):
         ]:
             setattr(review, attr, val)
     review.save()
-    return jsonify(review.to_dict())
+    return make_response(jsonify(review.to_dict()), 200)

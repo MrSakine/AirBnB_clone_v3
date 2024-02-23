@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Place objects that handles all default RESTFul API actions"""
-
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
@@ -19,7 +18,7 @@ def get_places(city_id):
     places = []
     for place in city.places:
         places.append(place.to_dict())
-    return jsonify(places)
+    return make_response(jsonify(places), 200)
 
 
 @app_views.route("/places/<string:place_id>", methods=["GET"])
@@ -28,7 +27,7 @@ def get_place(place_id):
     place = storage.get("Place", place_id)
     if place is None:
         abort(404)
-    return jsonify(place.to_dict())
+    return make_response(jsonify(place.to_dict()), 200)
 
 
 @app_views.route(
@@ -42,7 +41,7 @@ def delete_place(place_id):
         abort(404)
     place.delete()
     storage.save()
-    return jsonify({})
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route(
@@ -55,17 +54,15 @@ def post_place(city_id):
     if city is None:
         abort(404)
     if not request.get_json():
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        abort(400, "Not a JSON")
     kwargs = request.get_json()
     if "user_id" not in kwargs:
-        return make_response(
-            jsonify({"error": "Missing user_id"}), 400
-        )
+        abort(400, "Missing user_id")
     user = storage.get("User", kwargs["user_id"])
     if user is None:
         abort(404)
     if "name" not in kwargs:
-        return make_response(jsonify({"error": "Missing name"}), 400)
+        abort(400, "Missing name")
     kwargs["city_id"] = city_id
     place = Place(**kwargs)
     place.save()
@@ -90,7 +87,7 @@ def put_place(place_id):
         ]:
             setattr(place, attr, val)
     place.save()
-    return jsonify(place.to_dict())
+    return make_response(jsonify(place.to_dict()), 200)
 
 
 @app_views.route("/places_search", methods=["POST"])
@@ -130,4 +127,4 @@ def post_places_search():
                     break
         return jsonify(confirmed_places)
     else:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        abort(400, "Not a JSON")
