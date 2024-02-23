@@ -5,14 +5,13 @@ This module is about the state route of the API
 from flask import jsonify, request, abort, make_response
 from models import storage
 from api.v1.views import app_views
-from models.state import State
 
 
 @app_views.route("/states", methods=["GET"], strict_slashes=False)
 def get_states():
     """get state information for all states"""
     states = []
-    for state in storage.all("State").values():
+    for state in storage.all(storage.CLASSES["State"]).values():
         states.append(state.to_dict())
     return jsonify(states)
 
@@ -22,7 +21,7 @@ def get_states():
 )
 def get_state(state_id):
     """get state information for specified state"""
-    state = storage.get("State", state_id)
+    state = storage.get(storage.CLASSES["State"], state_id)
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
@@ -35,7 +34,7 @@ def get_state(state_id):
 )
 def delete_state(state_id):
     """deletes a state based on its state_id"""
-    state = storage.get("State", state_id)
+    state = storage.get(storage.CLASSES["State"], state_id)
     if state is None:
         abort(404)
     state.delete()
@@ -50,7 +49,7 @@ def post_state():
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     if "name" not in request.get_json():
         return make_response(jsonify({"error": "Missing name"}), 400)
-    state = State(**request.get_json())
+    state = storage.CLASSES["State"](**request.get_json())
     state.save()
     return make_response(jsonify(state.to_dict()), 201)
 
@@ -60,7 +59,7 @@ def post_state():
 )
 def put_state(state_id):
     """update a state"""
-    state = storage.get("State", state_id)
+    state = storage.get(storage.CLASSES["State"], state_id)
     if state is None:
         abort(404)
     if not request.get_json():
