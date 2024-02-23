@@ -10,7 +10,7 @@ from flask import Flask, jsonify, make_response
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+CORS(app, resources={"/*": {"origins": "0.0.0.0"}})
 app.register_blueprint(app_views, url_prefix="/api/v1")
 
 
