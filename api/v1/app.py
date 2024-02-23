@@ -4,7 +4,7 @@ This module is the root of the API
 """
 import os
 from models import storage
-from api.v1.views.index import app_views
+from api.v1.views import app_views
 from flask import Flask, jsonify, make_response
 
 app = Flask(__name__)

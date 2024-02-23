@@ -2,10 +2,29 @@
 """This module defines a class to manage file storage for hbnb clone"""
 import json
 import shlex
+from models import (
+    base_model,
+    amenity,
+    city,
+    place,
+    review,
+    state,
+    user,
+)
 
 
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
+
+    CLASSES = {
+        "BaseModel": base_model.BaseModel,
+        "Amenity": amenity.Amenity,
+        "City": city.City,
+        "Place": place.Place,
+        "Review": review.Review,
+        "State": state.State,
+        "User": user.User,
+    }
 
     __file_path = "file.json"
     __objects = {}
@@ -21,11 +40,11 @@ class FileStorage:
         if cls:
             dictionary = self.__objects
             for key in dictionary:
-                partition = key.replace('.', ' ')
+                partition = key.replace(".", " ")
                 partition = shlex.split(partition)
-                if (partition[0] == cls.__name__):
+                if partition[0] == cls.__name__:
                     dicts[key] = self.__objects[key]
-            return (dicts)
+            return dicts
         else:
             return self.__objects
 
@@ -56,11 +75,11 @@ class FileStorage:
                 cls = eval(cls)
             dictionary = self.__objects
             for key in dictionary:
-                partition = key.replace('.', ' ')
+                partition = key.replace(".", " ")
                 partition = shlex.split(partition)
-                if (partition[0] == cls.__name__):
+                if partition[0] == cls.__name__:
                     count += 1
-            return (count)
+            return count
         else:
             return len(self.__objects)
 
