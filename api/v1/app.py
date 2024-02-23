@@ -8,7 +8,7 @@ from api.v1.views import app_views
 from flask import Flask, jsonify, make_response
 
 app = Flask(__name__)
-
+app.url_map.strict_slashes = False
 app.register_blueprint(app_views, url_prefix="/api/v1")
 
 
@@ -26,8 +26,14 @@ def handle_404_error(e):
 
 
 if __name__ == "__main__":
-    host = os.getenv("HBNB_API_HOST") if os.getenv(
-        "HBNB_API_HOST") is not None else "0.0.0.0"
-    port = int(os.getenv("HBNB_API_PORT")) if os.getenv(
-        "HBNB_API_PORT") is not None else 5000
+    host = (
+        os.getenv("HBNB_API_HOST")
+        if os.getenv("HBNB_API_HOST") is not None
+        else "0.0.0.0"
+    )
+    port = (
+        int(os.getenv("HBNB_API_PORT"))
+        if os.getenv("HBNB_API_PORT") is not None
+        else 5000
+    )
     app.run(host=host, port=port, threaded=True)
