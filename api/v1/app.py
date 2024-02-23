@@ -3,12 +3,14 @@
 This module is the root of the API
 """
 import os
+from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
 from flask import Flask, jsonify, make_response
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 app.register_blueprint(app_views, url_prefix="/api/v1")
 
 
