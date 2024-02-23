@@ -21,7 +21,6 @@ def close_storage(exception):
 @app.errorhandler(400)
 def handle_400_error(e):
     """Handle 400 error"""
-    print(dir(e))
     message = jsonify({"error": e.description})
     return make_response(message, 400)
 
