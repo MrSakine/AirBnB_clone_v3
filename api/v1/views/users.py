@@ -59,7 +59,7 @@ def put_user(user_id):
     if user is None:
         abort(404)
     if not request.get_json():
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        abort(400, "Not a JSON")
     for attr, val in request.get_json().items():
         if attr not in ["id", "email", "created_at", "updated_at"]:
             setattr(user, attr, val)
