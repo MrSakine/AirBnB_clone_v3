@@ -3,8 +3,8 @@
 import unittest
 import MySQLdb
 from models.user import User
+from models.state import State
 from models import storage, DBStorage
-
 from datetime import datetime
 import os
 
@@ -204,3 +204,20 @@ class TestDBStorage(unittest.TestCase):
         dbc1.close()
         cursor.close()
         dbc.close()
+
+    def test_get_method(self):
+        """Test get method"""
+        state = State(name="California")
+        state.save()
+        self.assertTrue(storage.get(cls=State, id=state.id) is not None)
+
+    def test_get_method_without_id(self):
+        """Test get method without id"""
+        with self.assertRaises(TypeError):
+            self.assertTrue(storage.get(cls=State) is not None)
+
+    def test_count_method(self):
+        """Test count method"""
+        state = State(name="California")
+        state.save()
+        self.assertTrue(storage.count(State) > 0)
