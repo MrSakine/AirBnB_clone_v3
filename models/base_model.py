@@ -3,6 +3,7 @@
 import uuid
 import models
 import hashlib
+from os import getenv
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
@@ -60,15 +61,22 @@ class BaseModel:
         attribute names of the base model object as keys of the dictionary
         and their values as values of the dictionary
         """
-        dct = dict(self.__dict__)
-        dct["__class__"] = self.__class__.__name__
-        dct["created_at"] = self.created_at.isoformat()
-        dct["updated_at"] = self.updated_at.isoformat()
-        if "_sa_instance_state" in dct.keys():
-            del dct["_sa_instance_state"]
-        if not include_password and self.__class__.__name__ == "User":
-            del dct["password"]
-        return dct
+        new_dict = self.__dict__.copy()
+        if "created_at" in new_dict:
+            new_dict["created_at"] = new_dict[
+                "created_at"
+            ].isoformat()
+        if "updated_at" in new_dict:
+            new_dict["updated_at"] = new_dict[
+                "updated_at"
+            ].isoformat()
+        new_dict["__class__"] = self.__class__.__name__
+        if "_sa_instance_state" in new_dict:
+            del new_dict["_sa_instance_state"]
+        if getenv("HBNB_TYPE_STORAGE") == "db":
+            if "password" in new_dict:
+                del new_dict["password"]
+        return new_dict
 
     def delete(self):
         """delete the current instance from the storage"""

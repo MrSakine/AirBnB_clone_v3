@@ -637,7 +637,7 @@ class TestDatabase(unittest.TestCase):
             result = cursor.fetchone()
             self.assertTrue(result is not None)
             self.assertIn("john25@gmail.com", result)
-            self.assertIn("123", result)
+            self.assertIn("202cb962ac59075b964b07152d234b70", result)
             cursor.close()
             dbc.close()
 
@@ -681,7 +681,7 @@ class TestDatabase(unittest.TestCase):
             result = cursor.fetchone()
             self.assertTrue(result is not None)
             self.assertIn("john25@gmail.com", result)
-            self.assertIn("123", result)
+            self.assertIn("202cb962ac59075b964b07152d234b70", result)
             cursor.close()
             dbc.close()
 

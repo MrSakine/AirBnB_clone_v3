@@ -40,7 +40,7 @@ class TestDBStorage(unittest.TestCase):
                 "first_name": "jack",
                 "last_name": "bond",
                 "email": "jack@bond.com",
-                "password": 12345,
+                "password": "12345",
             }
         )
         cur = db.cursor()
@@ -88,7 +88,7 @@ class TestDBStorage(unittest.TestCase):
         result = cursor.fetchone()
         self.assertTrue(result is not None)
         self.assertIn("john2020@gmail.com", result)
-        self.assertIn("password", result)
+        self.assertIn("5f4dcc3b5aa765d61d8327deb882cf99", result)
         self.assertIn("John", result)
         self.assertIn("Zoldyck", result)
         cursor.close()
@@ -119,7 +119,7 @@ class TestDBStorage(unittest.TestCase):
         result = cursor.fetchone()
         self.assertTrue(result is not None)
         self.assertIn("john2020@gmail.com", result)
-        self.assertIn("password", result)
+        self.assertIn("5f4dcc3b5aa765d61d8327deb882cf99", result)
         self.assertIn("John", result)
         self.assertIn("Zoldyck", result)
         self.assertIn(obj_key, storage.all(User).keys())
@@ -209,7 +209,9 @@ class TestDBStorage(unittest.TestCase):
         """Test get method"""
         state = State(name="California")
         state.save()
-        self.assertTrue(storage.get(cls=State, id=state.id) is not None)
+        self.assertTrue(
+            storage.get(cls=State, id=state.id) is not None
+        )
 
     def test_get_method_without_id(self):
         """Test get method without id"""
