@@ -3,6 +3,7 @@
 import unittest
 from models.base_model import BaseModel
 from models import storage
+from models.state import State
 import os
 
 
@@ -112,3 +113,22 @@ class test_fileStorage(unittest.TestCase):
         """FileStorage object storage created"""
         from models.engine.file_storage import FileStorage
         self.assertEqual(type(storage), FileStorage)
+
+    def test_get_method(self):
+        """Test get method"""
+        state = State(name="California")
+        state.save()
+        self.assertTrue(storage.get(cls=State, id=state.id) is not None)
+
+    def test_get_method_without_id(self):
+        """Test get method without id"""
+        state = State(name="California")
+        state.save()
+        with self.assertRaises(TypeError):
+            self.assertTrue(storage.get(cls=State) is not None)
+
+    def test_count_method(self):
+        """Test count method"""
+        state = State(name="California")
+        state.save()
+        self.assertTrue(storage.count(State) > 0)
