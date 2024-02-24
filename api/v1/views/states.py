@@ -21,9 +21,9 @@ def get_states():
 def get_state(state_id):
     """get state information for specified state"""
     state = storage.get("State", state_id)
-    if state is None:
+    if not state:
         abort(404, "Not found")
-    return make_response(jsonify(state.to_dict()), 200)
+    return jsonify(state.to_dict())
 
 
 @app_views.route(
