@@ -21,7 +21,7 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         if kwargs:
             if "password" in kwargs:
-                self.__hash_password(kwargs["password"])
+                User.__hash_password(self, kwargs["password"])
         super().__init__(*args, **kwargs)
 
     def __hash_password(self, passw):
