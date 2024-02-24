@@ -2,6 +2,7 @@
 """This module defines a base class for all models in our hbnb clone"""
 import uuid
 import models
+import hashlib
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
@@ -51,7 +52,7 @@ class BaseModel:
         models.storage.new(self)
         models.storage.save()
 
-    def to_dict(self):
+    def to_dict(self, include_password=False):
         """
         Convert the base model object to dict
 
@@ -65,6 +66,8 @@ class BaseModel:
         dct["updated_at"] = self.updated_at.isoformat()
         if "_sa_instance_state" in dct.keys():
             del dct["_sa_instance_state"]
+        if not include_password and self.__class__.__name__ == "User":
+            del dct["password"]
         return dct
 
     def delete(self):
