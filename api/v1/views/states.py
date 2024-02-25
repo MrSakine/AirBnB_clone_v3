@@ -21,9 +21,9 @@ def get_states():
 def get_state(state_id):
     """get state information for specified state"""
     state = storage.get("State", state_id)
-    if state is None:
-        abort(404)
-    return make_response(jsonify(state.to_dict()), 200)
+    if not state:
+        abort(404, "Not found")
+    return jsonify(state.to_dict())
 
 
 @app_views.route(
@@ -34,7 +34,7 @@ def delete_state(state_id):
     """deletes a state based on its state_id"""
     state = storage.get("State", state_id)
     if state is None:
-        abort(404)
+        abort(404, "Not found")
     state.delete()
     storage.save()
     return make_response(jsonify({}), 200)
@@ -57,7 +57,7 @@ def put_state(state_id):
     """update a state"""
     state = storage.get("State", state_id)
     if state is None:
-        abort(404)
+        abort(404, "Not found")
     if not request.get_json():
         abort(400, "Not a JSON")
     for attr, val in request.get_json().items():
