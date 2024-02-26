@@ -30,7 +30,7 @@ def get_state(state_id):
 @app_views.route("/states", methods=["POST"])
 def create_state():
     """method that creates state"""
-    if not request.json:
+    if not request.is_json:
         abort(400, "Not a JSON")
     if "name" not in request.json:
         abort(400, "Missing name")
@@ -46,7 +46,7 @@ def update_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    if not request.json:
+    if not request.is_json:
         abort(400, "Not a JSON")
     data = request.get_json()
     for key, value in data.items():
@@ -62,20 +62,6 @@ def delete_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-
-    associated_cities = storage.all(City).values()
-    associated_cities = [
-        city
-        for city in associated_cities
-        if city.state_id == state_id
-    ]
-
-    if associated_cities:
-        for city in associated_cities:
-            city.delete()
-            storage.save()
-
     state.delete()
     storage.save()
-
-    return jsonify({}), 200
+    return jsonify({})
