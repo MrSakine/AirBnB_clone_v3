@@ -115,15 +115,14 @@ def places_search():
                 places.append(place)
     else:
         places = all_places
-    all_places, places = places, []
+    places.clear()
     if cities and len(cities) != 0:
         for place in all_places:
             if place.city_id in cities:
                 places.append(place)
     else:
         places = all_places
-    all_places, places = places, []
-
+    places.clear()
     if states and len(states) != 0:
         for place in all_places:
             city = storage.get(City, place.city_id)
@@ -131,8 +130,7 @@ def places_search():
                 places.append(place)
     else:
         places = all_places
-    all_places, places = places, []
-
+    places.clear()
     for place in all_places:
         places.append(place.to_dict())
 
